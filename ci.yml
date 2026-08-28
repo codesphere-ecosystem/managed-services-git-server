@@ -16,9 +16,8 @@ run:
         - port: 3000
           path: /
     env:
-      USER_UID: 1501
-      USER_GID: 1010
       FORGEJO____APP_NAME: ${{ workspace.env['APP_NAME'] }}
+      FORGEJO____RUN_USER: git
       FORGEJO__database__DB_TYPE: postgres
       FORGEJO__database__NAME: forgejo
       FORGEJO__database__USER: forgejo
@@ -36,7 +35,7 @@ run:
       - name: _workspace
         mountPath: /var/lib/gitea
         workspacePath: data
-    image: codeberg.org/forgejo/forgejo:16-rootless
+    image: ghcr.io/codesphere-cloud/managed-services-git-server:16.0.3-rootless
   db:
     provider:
       name: postgres

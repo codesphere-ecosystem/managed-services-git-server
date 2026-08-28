@@ -30,8 +30,10 @@ actual resources are selected by the landscape CI profile.
 
 ### Forgejo application
 
-`ci.yml` runs the official `codeberg.org/forgejo/forgejo:16-rootless` image as
-UID 1501/GID 1010. Codesphere checks `http://localhost:3000/` for health and
+`ci.yml` runs the repository's custom Forgejo image. It derives from the
+official `codeberg.org/forgejo/forgejo:16.0.3-rootless` image and recreates the
+`git` system user as UID 1501/GID 1010. Forgejo's `RUN_USER` is explicitly set
+to that account. Codesphere checks `http://localhost:3000/` for health and
 routes `/` to port 3000. TLS terminates at the Codesphere edge.
 
 Forgejo's environment-to-INI convention translates variables such as

@@ -13,8 +13,9 @@ persistent workspace storage.
 - Repository data, attachments, configuration, and other Forgejo files persist
   in the workspace `data/` directory.
 - Application metadata and state persist in a dedicated PostgreSQL database.
-- The service runs as a non-root user and uses one replica because its file
-  storage is not shared between replicas.
+- The custom Forgejo image runs as the `git` system user with the
+  Codesphere-required UID 1501 and GID 1010. The service uses one replica
+  because its file storage is not shared between replicas.
 
 ## Configuration
 
