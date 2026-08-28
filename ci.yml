@@ -1,0 +1,50 @@
+schemaVersion: v0.4
+prepare:
+  steps: []
+test:
+  steps: []
+run:
+  container:
+    healthEndpoint: http://localhost:3000/
+    plan: 301
+    replicas: 1
+    network:
+      ports:
+        - port: 3000
+          isPublic: false
+      paths:
+        - port: 3000
+          path: /
+    env:
+      USER_UID: 1501
+      USER_GID: 1010
+      FORGEJO__database__DB_TYPE: postgres
+      FORGEJO__database__NAME: forgejo
+      FORGEJO__database__USER: forgejo
+      FORGEJO__database__PASSWD: ${{ vault['pg_app_password'] }}
+      FORGEJO__database__HOST: ms-postgres-v1-${{ team.id }}-landscape-${{ workspace.id }}-db.ms-postgres
+      FORGEJO__server__START_SSH_SERVER: "false"
+    runAsUser: 1501
+    runAsGroup: 1010
+    volumeMounts:
+      - name: _workspace
+        mountPath: /data
+        workspacePath: data
+      - name: _workspace
+        mountPath: /var/lib/gitea
+        workspacePath: data
+    image: codeberg.org/forgejo/forgejo:16-rootless
+  db:
+    provider:
+      name: postgres
+      schemaVersion: v1
+    plan:
+      id: 0
+      parameters: {}
+    config:
+      version: "17.9"
+      userName: forgejo
+      databaseName: forgejo
+    secrets:
+      userPassword: ${{ vault['pg_app_password'] }}
+      superuserPassword: ${{ vault['pg_admin_password'] }}
