@@ -1,0 +1,53 @@
+name: git-server
+schemaVersion: v1
+author: Codesphere
+displayName: Git Server
+category: developer-tools
+description: |
+  A self-hosted Git Server powered by Forgejo, with persistent repository
+  storage and a dedicated PostgreSQL database. HTTP Git and the web interface
+  are available through the landscape route; the built-in SSH server is disabled.
+backend:
+  landscape:
+    gitUrl: https://github.com/codesphere-cloud/managed-services-git-server
+configSchema:
+  type: object
+  properties:
+    APP_NAME:
+      type: string
+      description: Name displayed in the Forgejo web interface
+      default: Git Server
+    DISABLE_REGISTRATION:
+      type: string
+      description: Whether users are prevented from creating their own accounts
+      enum: ["true", "false"]
+      default: "true"
+    REQUIRE_SIGNIN_VIEW:
+      type: string
+      description: Whether anonymous users must sign in before viewing Forgejo
+      enum: ["true", "false"]
+      default: "true"
+secretsSchema:
+  type: object
+  properties:
+    PG_APP_PASSWORD:
+      type: string
+      format: password
+      description: Password used by Forgejo to connect to PostgreSQL
+      minLength: 16
+    PG_ADMIN_PASSWORD:
+      type: string
+      format: password
+      description: PostgreSQL superuser password used to provision the database
+      minLength: 16
+  required: [PG_APP_PASSWORD, PG_ADMIN_PASSWORD]
+detailsSchema:
+  type: object
+  properties: {}
+plans: []
+versions:
+  0.1.0:
+    appVersion: Forgejo 16
+    ciProfile: default
+    gitRef: v0.1.0
+    description: Initial Forgejo managed service release

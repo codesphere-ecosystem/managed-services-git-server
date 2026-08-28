@@ -18,12 +18,15 @@ run:
     env:
       USER_UID: 1501
       USER_GID: 1010
+      FORGEJO____APP_NAME: ${{ workspace.env['APP_NAME'] }}
       FORGEJO__database__DB_TYPE: postgres
       FORGEJO__database__NAME: forgejo
       FORGEJO__database__USER: forgejo
-      FORGEJO__database__PASSWD: ${{ vault['pg_app_password'] }}
+      FORGEJO__database__PASSWD: ${{ vault['PG_APP_PASSWORD'] }}
       FORGEJO__database__HOST: ms-postgres-v1-${{ team.id }}-landscape-${{ workspace.id }}-db.ms-postgres
       FORGEJO__server__START_SSH_SERVER: "false"
+      FORGEJO__service__DISABLE_REGISTRATION: ${{ workspace.env['DISABLE_REGISTRATION'] }}
+      FORGEJO__service__REQUIRE_SIGNIN_VIEW: ${{ workspace.env['REQUIRE_SIGNIN_VIEW'] }}
     runAsUser: 1501
     runAsGroup: 1010
     volumeMounts:
@@ -46,5 +49,5 @@ run:
       userName: forgejo
       databaseName: forgejo
     secrets:
-      userPassword: ${{ vault['pg_app_password'] }}
-      superuserPassword: ${{ vault['pg_admin_password'] }}
+      userPassword: ${{ vault['PG_APP_PASSWORD'] }}
+      superuserPassword: ${{ vault['PG_ADMIN_PASSWORD'] }}
