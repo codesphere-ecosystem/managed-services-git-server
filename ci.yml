@@ -35,7 +35,7 @@ run:
       - name: _workspace
         mountPath: /var/lib/gitea
         workspacePath: data
-    image: ghcr.io/codesphere-cloud/managed-services-git-server:16.0.3-rootless
+    image: ghcr.io/codesphere-ecosystem/managed-services-git-server:16.0.3-rootless
   db:
     provider:
       name: postgres
