@@ -2,6 +2,7 @@ name: git-server
 schemaVersion: v1
 author: Codesphere
 displayName: Git Server
+iconUrl: https://forgejo.org/favicon.ico
 category: developer-tools
 description: |
   A self-hosted Git Server powered by Forgejo, with persistent repository
